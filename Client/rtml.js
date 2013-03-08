@@ -24,9 +24,17 @@ rtml.prototype = {
 	 * @param {json} options
 	 * @return
 	 */
-	initialize: function (id, options) {			
+	initialize: function (id, options) {						
+		this.opt = {			
+			host: window.location.hostname,
+			port: 80,
+			debug: false
+		}
+		
+		Object.extend(this.opt, options);
+		
 		this.id = id;
-		this.host = "ws://" +  (options.host || "localhost") + ":" + (options.port || 80);
+		this.host = "ws://" + this.opt.host + ":" + this.opt.port;
 	},
 	
 	/**
@@ -39,6 +47,19 @@ rtml.prototype = {
 	},	
 	
 	/**
+	 * 
+	 * 
+	 * @return {boolean}
+	 */
+	connected: function() {
+		if (typeof this.socket == "undefined") {
+			return false;
+		} else {
+			return !(this.socket.readyState == 2);
+		}			
+	}
+	
+	/**
 	 * Set contents to subscribe in message
 	 * 
 	 * @param {regex} match
@@ -47,12 +68,10 @@ rtml.prototype = {
 	subscribe: function(match) {
 		this.match = match || "*";
 		
-		if (typeof this.socket != "undefined") {
-			if (this.socket.readyState != 2) {
-				this.destroy();
-				this.open(this.channel);
-			}
-		}
+		if (this.connected()) {
+			this.destroy();
+			this.open(this.channel);
+		}		
 	},
 	
 	/**
@@ -76,11 +95,15 @@ rtml.prototype = {
 		this.socket = new WebSocket(this.host + "/" + this.channel);		
 		
 		this.on("close", function() { 
-			console.log ("Client " + this.id + " is closed."); 
+			if (this.opt.debug) {
+				console.log ("Client " + this.id + " is closed.");
+			}
 		});
 		
 		this.on("open", function()  { 
-			console.log ("Client " + this.id + " is connected to " + this.host + "/" + this.channel + "."); 
+			if (this.opt.debug) {
+				console.log ("Client " + this.id + " is connected to " + this.host + "/" + this.channel + ".");
+			}
 			
 			this.send({ 
 				uniqueID: this.id 
@@ -95,9 +118,7 @@ rtml.prototype = {
 	 * @return
 	 */
 	destroy: function() {
-		if (this.socket.readyState == 2) { return; }
-		
-		this.socket.close();
+		if (this.connected()) this.socket.close();
 	},
 	
 	/**
@@ -107,7 +128,7 @@ rtml.prototype = {
 	 * @return
 	 */
 	send: function(msg) {
-		if (this.socket.readyState == 2) { this.open(this.channel); }
+		if (!this.connected()) this.open(this.channel);
 		
 		this.socket.send(Object.toJSON(msg));
 	},
