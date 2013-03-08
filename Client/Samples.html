@@ -3,7 +3,7 @@
 	<head>
 		<meta name="Content-Type" content="text/html; charset=UTF-8" />
 		<title>Rtml sample</title>	
-		<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/prototype/1.7.1.0/prototype.js"></script>
 		<script type="text/javascript" src="rtml.js"></script>
 	</head>
 	<body>
@@ -11,8 +11,18 @@
 			
 		</div>
 		<script type="text/javascript">
-			$(document).ready(function() {
-				
+			var feed = new rtml('obtain_news_feed', { 
+				host: 'localhost', 
+				port: 8080 
+			});			
+			
+			feed.subscribe(/\crise\);
+			feed.open('/demo');
+						
+			feed.on('open', function() {
+				feed.on('message', function(msg) {
+					
+				})
 			});
 		</script>
 	</body>	
