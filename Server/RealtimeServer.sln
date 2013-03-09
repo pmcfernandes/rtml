@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{DCB870DA-BFFE-4A24-93CB-A2C641FE36ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Realtime.Server.Socket", "Realtime.Server.Socket\Realtime.Server.Socket.csproj", "{616D7973-9422-458F-9785-929C9FD8E383}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DCB870DA-BFFE-4A24-93CB-A2C641FE36ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCB870DA-BFFE-4A24-93CB-A2C641FE36ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCB870DA-BFFE-4A24-93CB-A2C641FE36ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCB870DA-BFFE-4A24-93CB-A2C641FE36ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{616D7973-9422-458F-9785-929C9FD8E383}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{616D7973-9422-458F-9785-929C9FD8E383}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{616D7973-9422-458F-9785-929C9FD8E383}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{616D7973-9422-458F-9785-929C9FD8E383}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -12,7 +12,6 @@
 // General Public License along with this program; if not, write to the Free Software Foundation, Inc., 59 
 // Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-
 var rtml = Class.create();
 
 rtml.prototype = {
@@ -20,9 +19,13 @@ rtml.prototype = {
 	/**
 	 * Creates a new instance of the rtml object 
 	 * 
-	 * @param {string} id
-	 * @param {json} options
+	 * @param {string} id       Unique identifier for client
+	 * @param {json}   options  Server connections options
 	 * @return
+	 * 
+	 * <code>
+	 *    var subscriber = new rtml('B3CD21CE-3A52-4F8E-904D-2BB80E44FFD6', { host: 'www.pfernandes.pt', port: 8080, debug: true });
+	 * </code>
 	 */
 	initialize: function (id, options) {						
 		this.opt = {			
@@ -40,19 +43,29 @@ rtml.prototype = {
 	/**
 	 * Gets the id of the current customer
 	 * 
-	 * @return {string} id
+	 * @return {string} id  
+	 * 
+	 * <code>
+	 *    var subscriber = new rtml(...); (...)
+	 *    alert(subscriber.id()); 
+	 * </code>
 	 */
 	id: function() {
 		return this.id;
 	},	
 	
 	/**
+	 * Check if the real-time connection was established
 	 * 
+	 * @return {boolean}  
 	 * 
-	 * @return {boolean}
+	 * <code>
+	 *    var subscriber = new rtml(...); (...)
+	 *    alert(subscriber.connected()); 
+	 * </code>
 	 */
 	connected: function() {
-		if (typeof this.socket == "undefined") {
+		if (!this.socket) {
 			return false;
 		} else {
 			return !(this.socket.readyState == 2);
@@ -62,37 +75,48 @@ rtml.prototype = {
 	/**
 	 * Set contents to subscribe in message
 	 * 
-	 * @param {regex} match
+	 * @param {regex} match    Regular expression to filter messages
 	 * return
+	 * 
+	 * <code>
+	 *    var subscriber = new rtml(...);
+	 *    subscriber.subscribe(/\[A-Z]\);
+	 *    subscriber.open('/realtime/server');
+	 * </code>
 	 */
 	subscribe: function(match) {
 		this.match = match || "*";
 		
 		if (this.connected()) {
 			this.destroy();
-			this.open(this.channel);
+			this.open(this.route);
 		}		
 	},
 	
 	/**
 	 * Open a real-time connection with the server
 	 * 
-	 * @param {string} channel
+	 * @param {string} route   Server Location of real-time channel
 	 * @return
+	 * 
+	 * <code>
+	 *    var subscriber = new rtml(...);
+	 *    subscriber.open('/realtime/server');
+	 * </code>
 	 */
-	open: function(channel) {				
+	open: function(route) {				
 		if(!("WebSocket" in window)) {  
 			console.error("WebSocket is not supported.");
 			return;
 		}
 		
-		if (channel.substring(0, 1) == "/") {
-			this.channel = channel.substring(0, channel.length - 1);
+		if (route.substring(0, 1) == "/") {
+			this.route = route.substring(0, route.length - 1);
 		} else {
-			this.channel = channel;
+			this.route = route;
 		}
 		
-		this.socket = new WebSocket(this.host + "/" + this.channel);		
+		this.socket = new WebSocket(this.host + "/" + this.route);		
 		
 		this.on("close", function() { 
 			if (this.opt.debug) {
@@ -100,13 +124,15 @@ rtml.prototype = {
 			}
 		});
 		
-		this.on("open", function()  { 
+		this.on("open", function() {
 			if (this.opt.debug) {
-				console.log ("Client " + this.id + " is connected to " + this.host + "/" + this.channel + ".");
+				console.log ("Client " + this.id + " is connected to " + this.host + "/" + this.route + ".");
 			}
 			
-			this.send({ 
-				uniqueID: this.id 
+			this.send({
+				msg: {
+					uniqueID: this.id
+				}
 			});
 			
 		});		
@@ -116,6 +142,11 @@ rtml.prototype = {
 	 * Close the existing connection
 	 * 
 	 * @return
+	 * 
+	 * <code>
+	 *    var subscriber = new rtml(...); (...)
+	 *    subscriber.destroy();
+	 * </code>	 
 	 */
 	destroy: function() {
 		if (this.connected()) this.socket.close();
@@ -124,11 +155,21 @@ rtml.prototype = {
 	/**
 	 * Send a message to the server
 	 * 
-	 * @param {json} msg
+	 * @param {json} msg   Message to send to server
 	 * @return
+	 * 
+	 * <code>
+	 *    var subscriber = new rtml(...);
+	 *    subscriber.open('/realtime/server');
+	 *    subscriber.send({
+	 *    	msg: {
+	 *    		(...)
+	 *    	}
+	 *    })
+	 * </code>	 
 	 */
 	send: function(msg) {
-		if (!this.connected()) this.open(this.channel);
+		if (!this.connected()) this.open(this.route);
 		
 		this.socket.send(Object.toJSON(msg));
 	},
@@ -136,9 +177,23 @@ rtml.prototype = {
 	/**
 	 * Raises an event related with the connection
 	 * 
-	 * @param {string} event
-	 * @param {function} callback
+	 * @param {string}   event     Event want to fire
+	 * @param {function} callback  Function that returns the server response
 	 * @return
+	 * 
+	 * <code>
+	 *    var subscriber = new rtml(...); (...)
+	 *    subscriber.open('/realtime/server');
+	 *    subscriber.on('receive', function(msg) { 
+	 *    	(...) 
+	 *    });
+	 *    subscriber.on('open', function()  { 
+	 *    	(...) 
+	 *    });
+	 *    subscriber.on('close', function() { 
+	 *    	(...) 
+	 *    });
+	 * </code>		 
 	 */
 	on: function(event, callback) {
 		if (event == "open")    { this.socket.onopen = callback    || function() { };    }	
