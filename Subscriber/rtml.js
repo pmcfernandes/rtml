@@ -76,21 +76,27 @@ rtml.prototype = {
 	 * Set contents to subscribe in message
 	 * 
 	 * @param {regex} match    Regular expression to filter messages
-	 * return
+	 * return {string}
 	 * 
 	 * <code>
 	 *    var subscriber = new rtml(...);
-	 *    subscriber.subscribe(/\[A-Z]\);
 	 *    subscriber.open('/realtime/server');
+	 * 	  subscriber.on('open', function() {
+	 *			subscriber.subscribe(/\[A-Z]\);
+	 *	  });
 	 * </code>
 	 */
 	subscribe: function(match) {
+		if (typeof match == 'undefined') {
+			return this.match;
+		}
+	
 		this.match = match || "*";
-		
-		if (this.connected()) {
-			this.destroy();
-			this.open(this.route);
-		}		
+		this.send({
+			msg: {
+				match: match
+			}
+		});
 	},
 	
 	/**
@@ -117,21 +123,22 @@ rtml.prototype = {
 		}
 		
 		this.socket = new WebSocket(this.host + "/" + this.route);		
+		var id = this.id();
 		
 		this.on("close", function() { 
 			if (this.opt.debug) {
-				console.log ("Client " + this.id + " is closed.");
+				console.log ("Client " + id + " is closed.");
 			}
 		});
 		
 		this.on("open", function() {
 			if (this.opt.debug) {
-				console.log ("Client " + this.id + " is connected to " + this.host + "/" + this.route + ".");
+				console.log ("Client " + id + " is connected to " + this.host + "/" + this.route + ".");
 			}
 			
 			this.send({
 				msg: {
-					uniqueID: this.id
+					uniqueID: id
 				}
 			});
 			
