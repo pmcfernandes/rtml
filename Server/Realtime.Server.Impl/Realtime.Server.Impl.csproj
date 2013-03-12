@@ -7,10 +7,11 @@
     <ProjectGuid>{616D7973-9422-458F-9785-929C9FD8E383}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Rtml.Server</RootNamespace>
-    <AssemblyName>Rtml.Server</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RootNamespace>Realtime.Server.Impl</RootNamespace>
+    <AssemblyName>Realtime.Server.Impl</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,30 +31,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SuperSocket.SocketBase">
+      <HintPath>..\Libs\SuperSocket.SocketBase.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.SocketEngine">
+      <HintPath>..\Libs\SuperSocket.SocketEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperWebSocket">
+      <HintPath>..\Libs\SuperWebSocket.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConnectionInfo.cs" />
-    <Compile Include="ErrorEventArgs.cs" />
-    <Compile Include="HttpRequest.cs" />
-    <Compile Include="IConnection.cs" />
-    <Compile Include="IConnectionInfo.cs" />
-    <Compile Include="IRealtimeServer.cs" />
-    <Compile Include="ISocket.cs" />
-    <Compile Include="ITransfer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Connection.cs" />
-    <Compile Include="RealtimeException.cs" />
     <Compile Include="RealtimeServer.cs" />
-    <Compile Include="ReceivedEventArgs.cs" />
-    <Compile Include="InternalSocket.cs" />
-    <Compile Include="WebSocketTransfer.cs" />
+    <Compile Include="RealtimeSession.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

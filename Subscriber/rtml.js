@@ -27,17 +27,18 @@ rtml.prototype = {
 	 *    var subscriber = new rtml('B3CD21CE-3A52-4F8E-904D-2BB80E44FFD6', { host: 'www.pfernandes.pt', port: 8080, debug: true });
 	 * </code>
 	 */
-	initialize: function (id, options) {						
-		this.opt = {			
-			host: window.location.hostname,
+	initialize: function (uniqueID, options) {						
+		this._opt = {			
+			host: window.location.hostname,			
 			port: 80,
+			route: '/',
 			debug: false
 		}
 		
-		Object.extend(this.opt, options);
+		Object.extend(this._opt, options);
 		
-		this.id = id;
-		this.host = "ws://" + this.opt.host + ":" + this.opt.port;
+		this._uniqueID = uniqueID;
+		this._host = "ws://" + this._opt.host + ":" + this._opt.port;
 	},
 	
 	/**
@@ -50,8 +51,8 @@ rtml.prototype = {
 	 *    alert(subscriber.id()); 
 	 * </code>
 	 */
-	id: function() {
-		return this.id;
+	uniqueID: function() {
+		return this._uniqueID;
 	},	
 	
 	/**
@@ -65,12 +66,12 @@ rtml.prototype = {
 	 * </code>
 	 */
 	connected: function() {
-		if (!this.socket) {
+		if (!this._socket) {
 			return false;
 		} else {
-			return !(this.socket.readyState == 2);
+			return !(this._socket.readyState == 2);
 		}			
-	}
+	},
 	
 	/**
 	 * Set contents to subscribe in message
@@ -88,10 +89,10 @@ rtml.prototype = {
 	 */
 	subscribe: function(match) {
 		if (typeof match == 'undefined') {
-			return this.match;
+			return this._match;
 		}
 	
-		this.match = match || "*";
+		this._match = match || "*";
 		this.send({
 			msg: {
 				match: match
@@ -102,7 +103,6 @@ rtml.prototype = {
 	/**
 	 * Open a real-time connection with the server
 	 * 
-	 * @param {string} route   Server Location of real-time channel
 	 * @return
 	 * 
 	 * <code>
@@ -110,35 +110,35 @@ rtml.prototype = {
 	 *    subscriber.open('/realtime/server');
 	 * </code>
 	 */
-	open: function(route) {				
+	open: function() {	
+		var _debug = this._opt.debug;
+		var _id = this.uniqueID();
+		
 		if(!("WebSocket" in window)) {  
 			console.error("WebSocket is not supported.");
 			return;
 		}
-		
-		if (route.substring(0, 1) == "/") {
-			this.route = route.substring(0, route.length - 1);
-		} else {
-			this.route = route;
-		}
-		
-		this.socket = new WebSocket(this.host + "/" + this.route);		
-		var id = this.id();
-		
+			
+		this._socket = new WebSocket(this._host + this._opt.route);		
+				
 		this.on("close", function() { 
-			if (this.opt.debug) {
-				console.log ("Client " + id + " is closed.");
+			if (_debug == true) {
+				console.log ("Client " + _id + " is closed.");
 			}
 		});
 		
+		this.on('receive', function(msg) {
+			console.log(msg);
+		});
+		
 		this.on("open", function() {
-			if (this.opt.debug) {
-				console.log ("Client " + id + " is connected to " + this.host + "/" + this.route + ".");
+			if (_debug == true) {
+				console.log ("Client " + _id + " is connected.");
 			}
 			
 			this.send({
 				msg: {
-					uniqueID: id
+					uniqueID: _id
 				}
 			});
 			
@@ -156,7 +156,7 @@ rtml.prototype = {
 	 * </code>	 
 	 */
 	destroy: function() {
-		if (this.connected()) this.socket.close();
+		if (this.connected()) this._socket.close();
 	},
 	
 	/**
@@ -176,9 +176,9 @@ rtml.prototype = {
 	 * </code>	 
 	 */
 	send: function(msg) {
-		if (!this.connected()) this.open(this.route);
+		if (!this.connected()) this.open();
 		
-		this.socket.send(Object.toJSON(msg));
+		this._socket.send(Object.toJSON(msg));
 	},
 	
 	/**
@@ -202,10 +202,24 @@ rtml.prototype = {
 	 *    });
 	 * </code>		 
 	 */
-	on: function(event, callback) {
-		if (event == "open")    { this.socket.onopen = callback    || function() { };    }	
-		if (event == "close")   { this.socket.onclose = callback   || function() { };    }
-		if (event == "receive") { this.socket.onmessage = callback || function(msg) { }; }
+	on: function(event, callback) {	
+		if (event == "open") { 
+			this._socket.onopen = function() { 
+				callback();
+			};    
+		}	
+		
+		if (event == "close") { 
+			this._socket.onclose = function() { 
+				callback();
+			};    
+		}
+		
+		if (event == "receive") { 
+			this._socket.onmessage = function(msg) { 				
+				callback(msg.data.toString().evalJSON());
+			}; 
+		}
 	}
 		
 };

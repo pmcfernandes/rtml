@@ -13,16 +13,18 @@
 		<script type="text/javascript">
 			var feed = new rtml('obtain_news_feed', { 
 				host: 'localhost', 
-				port: 8080 
+				port: 8081,
+				debug: true
 			});			
 			
-			feed.subscribe(/\crise\);
-			feed.open('/demo');
-						
-			feed.on('open', function() {
-				feed.on('message', function(msg) {
-					
-				})
+			feed.open();
+			
+			feed.on('open', function(msg) {
+				feed.subscribe('demo');
+			});
+			
+			feed.on('receive', function(msg) {
+				alert(msg);
 			});
 		</script>
 	</body>	

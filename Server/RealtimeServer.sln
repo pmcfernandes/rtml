@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{DCB870DA-BFFE-4A24-93CB-A2C641FE36ED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Realtime.Server", "Server\Realtime.Server.csproj", "{DCB870DA-BFFE-4A24-93CB-A2C641FE36ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Realtime.Server.Socket", "Realtime.Server.Socket\Realtime.Server.Socket.csproj", "{616D7973-9422-458F-9785-929C9FD8E383}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Realtime.Server.Impl", "Realtime.Server.Impl\Realtime.Server.Impl.csproj", "{616D7973-9422-458F-9785-929C9FD8E383}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
