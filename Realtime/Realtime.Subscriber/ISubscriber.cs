@@ -14,8 +14,6 @@
 
 using Realtime.Common;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Realtime.Subscriber
 {
@@ -52,12 +50,6 @@ namespace Realtime.Subscriber
         /// Close the existing connection
         /// </summary>
         void Close();
-
-        /// <summary>
-        /// Sends the specified message.
-        /// </summary>
-        /// <param name="message">The message.</param>
-        void Send(object message);
 
         /// <summary>
         /// Send a message to the server

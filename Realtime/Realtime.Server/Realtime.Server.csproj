@@ -45,9 +45,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Match.cs" />
+    <Compile Include="Command\MSG.cs" />
+    <Compile Include="Command\PUB.cs" />
+    <Compile Include="Command\SUB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Publish.cs" />
+    <Compile Include="RealtimeProtocol.cs" />
     <Compile Include="RealtimeServer.cs" />
     <Compile Include="RealtimeSession.cs" />
   </ItemGroup>

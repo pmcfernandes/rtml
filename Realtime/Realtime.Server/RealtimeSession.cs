@@ -8,21 +8,15 @@ namespace Realtime.Server
     {
         public string UniqueID
         {
-            get
-            {
-                return SessionID;
-            }
+            get { return SessionID; }
         }
 
         public string Route
         {
-            get
-            {
-                return Path;
-            }
+            get { return Path; }
         }
 
-        public string Match 
+        public string Matching
         { 
             get; 
             set; 

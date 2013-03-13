@@ -12,11 +12,6 @@
 // General Public License along with this program; if not, write to the Free Software Foundation, Inc., 59 
 // Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Script.Serialization;
 
 namespace Realtime.Common
 {
@@ -43,29 +38,5 @@ namespace Realtime.Common
             set;
         }
 
-        /// <summary>
-        /// Stringifies the specified message.
-        /// </summary>
-        /// <param name="message">The message.</param>
-        /// <returns></returns>
-        public static string Stringify(RealtimeMessage message)
-        {
-            return Stringify(message.Message);
-        }
-
-        /// <summary>
-        /// Stringifies the specified data.
-        /// </summary>
-        /// <param name="data">The data.</param>
-        /// <returns></returns>
-        public static string Stringify(object data)
-        {
-            dynamic d = new {
-                msg = data
-            };
-
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            return serializer.Serialize(d);
-        }
     }
 }

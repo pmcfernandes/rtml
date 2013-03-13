@@ -14,8 +14,6 @@
 
 using Realtime.Common;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Realtime.Subscriber
 {
@@ -95,9 +93,11 @@ namespace Realtime.Subscriber
                 this._match = match;
             }
 
-            this.Send(new {
-                subscribe = match
-            });
+            dynamic d = new {
+                regex = match
+            }; 
+
+            this.Send("SUB " + ((object)d).Stringfy());
         }
 
         /// <summary>
@@ -107,26 +107,7 @@ namespace Realtime.Subscriber
         {
             _socket = new WebSocket4Net.WebSocket(_config.ToString());
             _socket.EnableAutoSendPing = true;
-            _socket.AutoSendPingInterval = (1000 * 60); // 1 Minute                                                  
-
-            this.On("open"
-                , (msg) =>
-                    {
-                        if (_config.Debug == true) Console.WriteLine(String.Format("Client {0} is connected.", this.UniqueID));
-                    });
-
-            this.On("close"
-                , (msg) =>
-                    {
-                        if (_config.Debug == true) Console.WriteLine(String.Format("Client {0} is closed.", this.UniqueID));                
-                    });
-
-            this.On("receive"
-                , (msg) =>
-                    {
-                        if (_config.Debug == true) Console.WriteLine(msg.Message);
-                    });
-
+            _socket.AutoSendPingInterval = (1000 * 60); // 1 Minute                  
             _socket.Open();
         }
 
@@ -142,7 +123,7 @@ namespace Realtime.Subscriber
         /// Sends the specified message.
         /// </summary>
         /// <param name="message">The message.</param>
-        public void Send(object message)
+        public void Send(string message)
         {
             if (message == null)
             {
@@ -154,16 +135,7 @@ namespace Realtime.Subscriber
                 this.Open();
             }
 
-            this.Send(RealtimeMessage.Stringify(new RealtimeMessage(message)));
-        }
-
-        /// <summary>
-        /// Send a message to the server
-        /// </summary>
-        /// <param name="message">The message.</param>
-        public void Send(string message)
-        {
-            this.Send(message);
+            _socket.Send(message);
         }
 
         /// <summary>

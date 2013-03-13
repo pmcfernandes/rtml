@@ -14,8 +14,6 @@
 
 using Realtime.Common;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 
 namespace Realtime.Publisher
@@ -103,7 +101,10 @@ namespace Realtime.Publisher
                 Thread.Sleep(100);
             }
 
-            _socket.Send("--PUBLISH " + RealtimeMessage.Stringify(new RealtimeMessage(message)));
+            dynamic d = new { msg = message };
+
+            _socket.Send("PUB " + ((object)d).Stringfy());
+
             callback.Invoke();
         }
 
