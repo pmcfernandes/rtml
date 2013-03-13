@@ -42,7 +42,7 @@ rtml.prototype = {
 	},
 	
 	/**
-	 * Gets the id of the current customer
+	 * Gets the unique id of the current customer
 	 * 
 	 * @return {string} id  
 	 * 
@@ -128,7 +128,9 @@ rtml.prototype = {
 		});
 		
 		this.on('receive', function(msg) {
-			console.log(msg);
+			if (_debug == true) {
+				console.log(msg);
+			}
 		});
 		
 		this.on("open", function() {

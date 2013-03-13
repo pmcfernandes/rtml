@@ -15,7 +15,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Realtime.Server
+namespace Realtime.Common
 {
     public class RealtimeException : Exception
     {
