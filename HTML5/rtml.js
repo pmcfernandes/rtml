@@ -94,9 +94,7 @@ rtml.prototype = {
 	
 		this._match = match || "*";
 		this.send({
-			msg: {
-				match: match
-			}
+			subscribe: match
 		});
 	},
 	
@@ -139,9 +137,7 @@ rtml.prototype = {
 			}
 			
 			this.send({
-				msg: {
-					uniqueID: _id
-				}
+				uniqueID: _id
 			});
 			
 		});		
@@ -171,7 +167,9 @@ rtml.prototype = {
 	 *    var subscriber = new rtml(...);
 	 *    subscriber.open('/realtime/server');
 	 *    subscriber.send({
-	 *    	msg: {
+	 *    	uniqueID: (...),
+	 * 		subscribe: (...),
+	 *		msg: {
 	 *    		(...)
 	 *    	}
 	 *    })

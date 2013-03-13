@@ -19,7 +19,7 @@ using System.Linq;
 
 namespace Realtime.Subscriber
 {
-    public class Subscriber : IDisposable, ISubscriber
+    public class Subscriber : ISubscriber, IDisposable
     {
         private WebSocket4Net.WebSocket _socket;
         private ServerConfig _config;
@@ -96,7 +96,7 @@ namespace Realtime.Subscriber
             }
 
             this.Send(new {
-                match = match
+                subscribe = match
             });
         }
 
@@ -107,7 +107,7 @@ namespace Realtime.Subscriber
         {
             _socket = new WebSocket4Net.WebSocket(_config.ToString());
             _socket.EnableAutoSendPing = true;
-            _socket.AutoSendPingInterval = (1000 * 60) * 10; // 10 Minutes               
+            _socket.AutoSendPingInterval = (1000 * 60); // 1 Minute                                                  
 
             this.On("open"
                 , (msg) =>

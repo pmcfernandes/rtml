@@ -4,16 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{616D7973-9422-458F-9785-929C9FD8E383}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{7C6EC9A1-0749-43D5-90A1-3CE6C89E0497}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Realtime.Server</RootNamespace>
-    <AssemblyName>Realtime.Server</AssemblyName>
+    <RootNamespace>TestPublisher</RootNamespace>
+    <AssemblyName>TestPublisher</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -31,30 +32,26 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SuperSocket.SocketBase">
-      <HintPath>..\..\Libs\SuperSocket.SocketBase.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperSocket.SocketEngine">
-      <HintPath>..\..\Libs\SuperSocket.SocketEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="SuperWebSocket">
-      <HintPath>..\..\Libs\SuperWebSocket.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Match.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Publish.cs" />
-    <Compile Include="RealtimeServer.cs" />
-    <Compile Include="RealtimeSession.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Realtime.Common\Realtime.Common.csproj">
+    <ProjectReference Include="..\..\Realtime\Realtime.Common\Realtime.Common.csproj">
       <Project>{8e7b2e2a-34be-4e9a-90c5-ae671f689a80}</Project>
       <Name>Realtime.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Realtime\Realtime.Publisher\Realtime.Publisher.csproj">
+      <Project>{b40a6af7-3b2a-4fcf-b1f0-afdc3a4065c5}</Project>
+      <Name>Realtime.Publisher</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

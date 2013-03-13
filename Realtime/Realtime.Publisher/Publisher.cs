@@ -16,12 +16,11 @@ using Realtime.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 
 namespace Realtime.Publisher
 {
-    public class Publisher : IDisposable
+    public class Publisher : IPublisher, IDisposable
     {
         private WebSocket4Net.WebSocket _socket;
         private ServerConfig _config;
@@ -73,7 +72,7 @@ namespace Realtime.Publisher
         {
             _socket = new WebSocket4Net.WebSocket(_config.ToString());
             _socket.EnableAutoSendPing = true;
-            _socket.AutoSendPingInterval = (1000 * 60) * 10; // 10 Minutes   
+            _socket.AutoSendPingInterval = (1000 * 60); // 1 Minute                                      
             _socket.Open();
         }
 
@@ -104,7 +103,7 @@ namespace Realtime.Publisher
                 Thread.Sleep(100);
             }
 
-            _socket.Send(RealtimeMessage.Stringify(new RealtimeMessage(message)));
+            _socket.Send("--PUBLISH " + RealtimeMessage.Stringify(new RealtimeMessage(message)));
             callback.Invoke();
         }
 

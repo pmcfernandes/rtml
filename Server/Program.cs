@@ -14,6 +14,7 @@
 
 using Realtime.Server;
 using System;
+using System.Collections.Generic;
 
 namespace ServerCmd
 {
@@ -24,7 +25,7 @@ namespace ServerCmd
         /// </summary>
         static void Main(string[] args)
         {
-            RealtimeServer server = new RealtimeServer(); 
+            RealtimeServer server = new RealtimeServer();
 
             if (!server.Setup(8081))
             {
@@ -32,7 +33,7 @@ namespace ServerCmd
                 Console.ReadKey();
                 return;
             }
-
+            
             if (!server.Start())
             {
                 Console.WriteLine("Failed to start!");
