@@ -9,6 +9,10 @@ namespace TestPublisher
 {
     class Program
     {
+        /// <summary>
+        /// Mains the specified args.
+        /// </summary>
+        /// <param name="args">The args.</param>
         static void Main(string[] args)
         {
             Console.WriteLine("The publisher started successfully, press key 'ctrl+c' to stop it!");
