@@ -1,4 +1,5 @@
 ﻿using SuperWebSocket;
+using System;
 
 namespace Realtime.Server
 {
@@ -11,7 +12,6 @@ namespace Realtime.Server
             : base(new RealtimeProtocol())
         {
             this.NewSessionConnected += RealtimeServer_NewSessionConnected;
-
         }
 
         /// <summary>
@@ -20,6 +20,7 @@ namespace Realtime.Server
         /// <param name="session">The session.</param>
         void RealtimeServer_NewSessionConnected(RealtimeSession session)
         {
+            Console.WriteLine("Registering session " + session.SessionID + " ... Succeed");
             this.RegisterSession(session.SessionID, session);
         }
     }

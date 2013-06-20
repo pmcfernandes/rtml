@@ -14,17 +14,21 @@
 			var feed = new rtml('obtain_news_feed', { 
 				host: 'localhost', 
 				port: 8081,
+				route: '/demo',
 				debug: true
 			});			
 			
 			feed.open();
 			
 			feed.on('open', function(msg) {
-				feed.subscribe('demo');
+				// feed.subscribe('*');
 			});
 			
 			feed.on('receive', function(msg) {
-				console.log(msg);
+				var n = eval(msg);
+				n = n.msg;
+				var nn = eval("[" + n + "]");
+				alert(nn[0].Noticia1);
 			});
 		</script>
 	</body>	

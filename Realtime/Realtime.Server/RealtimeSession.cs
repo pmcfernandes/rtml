@@ -46,6 +46,7 @@ namespace Realtime.Server
         protected override void OnSessionStarted()
         {
             this.Send("{ \"msg\": \"Welcome to Realtime Server\" }");
+            Console.WriteLine("Sending welcome message " + this.SessionID + " ... Succeed");
         }
 
         /// <summary>
@@ -62,8 +63,9 @@ namespace Realtime.Server
         /// </summary>
         /// <param name="reason">The reason.</param>
         protected override void OnSessionClosed(CloseReason reason)
-        {
+        {           
             base.OnSessionClosed(reason);
+            Console.WriteLine("Sending close message " + this.SessionID + " ... Succeed");
         }
     }
 }

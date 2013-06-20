@@ -1,4 +1,5 @@
 ﻿using SuperWebSocket.SubProtocol;
+using System;
 
 namespace Realtime.Server
 {
@@ -10,7 +11,8 @@ namespace Realtime.Server
         public RealtimeProtocol()
             : base(typeof(RealtimeProtocol).Assembly)
         {
-         
+            Console.WriteLine("Reading protocols ... Succeed");
+            Console.WriteLine("");
         }
 
     }

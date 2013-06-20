@@ -41,6 +41,7 @@ namespace ServerCmd
             }
 
             Console.WriteLine("The server started successfully, press key 'q' to stop it!");
+            Console.WriteLine("");
 
             while (Console.ReadKey().KeyChar != 'q')
             {

@@ -1,4 +1,5 @@
 ﻿using SuperWebSocket.SubProtocol;
+using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -17,16 +18,31 @@ namespace Realtime.Server.Command
 
             Parallel.ForEach<RealtimeSession>(session.AppServer.GetSessions((s) =>
             {
-                return s.Path == route;
+                if (s.Path == route)
+                {
+                    Console.WriteLine("Founded a route match with " + s.Path + " ... Succeed");
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }), (ss) =>
             {
-
-                Regex regex = new Regex(session.Matching ?? "*", RegexOptions.IgnoreCase | RegexOptions.Multiline);
-                if (regex.IsMatch(requestInfo.Body))
+                if (session.Matching == null)
                 {
-                    ss.Send(requestInfo.Body);
+                    ss.Send(requestInfo.Body);                   
+                }
+                else
+                {
+                    Regex regex = new Regex(session.Matching ?? "*", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+                    if (regex.IsMatch(requestInfo.Body))
+                    {
+                        ss.Send(requestInfo.Body);
+                    }
                 }
 
+                Console.WriteLine("Sending message with matching " + (session.Matching == null ? "*" : session.Matching) + " ... Succeed");
             });
         }
     }

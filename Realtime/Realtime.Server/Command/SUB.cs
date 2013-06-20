@@ -1,4 +1,5 @@
 ﻿using SuperWebSocket.SubProtocol;
+using System;
 
 namespace Realtime.Server.Command
 {
@@ -11,6 +12,7 @@ namespace Realtime.Server.Command
         /// <param name="requestInfo">The request info.</param>
         public override void ExecuteCommand(RealtimeSession session, SubRequestInfo requestInfo)
         {
+            Console.WriteLine("Saving match state " + requestInfo.Body + " ... Succeed");
             session.Matching = requestInfo.Body;
         }
     }

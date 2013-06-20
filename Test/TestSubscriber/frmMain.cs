@@ -36,7 +36,7 @@ namespace TestSubscriber
                         {
                             textBox1.Invoke((MethodInvoker)delegate
                                 {
-                                    textBox1.Text += msg + Environment.NewLine;
+                                    textBox1.Text += msg.Message + Environment.NewLine;
                                 });
                         }                                    
                     });            
